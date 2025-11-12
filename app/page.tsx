@@ -36,7 +36,7 @@ export default async function Home() {
               </Button>
         ) : (
           <Button asChild >
-                <Link href="/sign-in">login In to Continue 
+                <Link href="/chats">Go to chats
                 <LogInIcon className="size-4" />
                 </Link>
               </Button>

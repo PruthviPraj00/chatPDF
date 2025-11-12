@@ -1,22 +1,31 @@
 'use client'
 
-import React from 'react'
 import {Inbox} from "lucide-react"
 import {useDropzone} from 'react-dropzone'
+import { uploadToS3 } from '@/lib/s3'
 
 const FileUpload = () => {
     const {getRootProps, getInputProps} = useDropzone({
         accept: {"application/pdf": [".pdf"]},
         maxFiles:1,
-        onDrop: (acceptedFiles)=> {
-          
+        onDrop: async (acceptedFiles)=> {
+          const file = acceptedFiles[0];
+          if(file.size > 10 * 1024 * 1024) {
+            alert("File size exceeds 10MB limit");
+            return;
+          }
+          try {
+            const data = await uploadToS3(file);
+          } catch (error) {
+            console.error("Error uploading file:", error);
+          }
         }
     });
   return (
     <div className='p-2 bg-white rounded-xl w-full max-w-md h-60'>
       <div  {...getRootProps({
           className:
-            "border-dashed border-2 rounded-xl cursor-pointer bg-gray-50 py-8 h-full flex justify-center items-center flex-col",
+            "border-dashed border-2 rounded-xl cursor-pointer  py-8 h-full flex justify-center items-center flex-col bg-gradient-to-r from-amber-200/10 to-yellow-400/101`",
         })} >
         <input {...getInputProps()} />
         <>
