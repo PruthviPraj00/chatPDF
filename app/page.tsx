@@ -5,7 +5,7 @@ import { UserButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import Link from 'next/link'
 import {LogInIcon} from 'lucide-react'
-import FileUpload from "@/components/file-upload";
+import FileUpload from "@/components/FileUpload";
 
 export default async function Home() {
   const user = await currentUser()
