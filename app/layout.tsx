@@ -9,6 +9,8 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import "./globals.css";
+import Providers from "@/components/Providers";
+import {Toaster} from 'react-hot-toast'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
+      <Providers>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -38,7 +41,9 @@ export default function RootLayout({
           
           {children}
         </body>
+      <Toaster />
       </html>
+      </Providers>
     </ClerkProvider>
   );
 }
