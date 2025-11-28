@@ -1,15 +1,17 @@
 // api/create-chat
 
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
+import { loadS3IntoPinecone } from '@/lib/pinecone'
 
-export async function POST(req: Request, res: Response){
-    try {
-        const body = await req.json()
-        const [file_name, file_key] = body
-    } catch (error) {
-        return NextResponse.json(
-            {error: "internal server error"},
-            {status: 500}
-        )
-    }
+export async function POST(req: Request, res: Response) {
+  try {
+    const body = await req.json()
+    const { file_key, file_name } = body
+    console.log('Received:', { file_key, file_name })
+    const pages = await loadS3IntoPinecone(file_key)
+    return NextResponse.json({ pages })
+  } catch (error) {
+    console.error('Error in create-chat:', error)
+    return NextResponse.json({ error: 'internal server error' }, { status: 500 })
+  }
 }
